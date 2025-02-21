@@ -27,7 +27,12 @@ const createProject =async(projectData)=>{
             {_id:projectData.workspaceName},
             {$push:{projects:savedProject._id}}
         )
-        return 'project created successfully'
+        return {
+            message:'project created successfully',
+            project:savedProject
+        }
+        
+        
     } catch (error) {
         console.error('error in repo',error)
         throw error   
@@ -90,12 +95,71 @@ const getEachProject = async(projectId)=>{
     }
 }
 
+
+// const addNewMembers = async(projectId,members)=>{
+//     try {
+//         const addNewMembers = await projectModel.findByIdAndUpdate(
+//             projectId,
+//             {members},
+//             {new:true}   
+//         )
+//         return addNewMembers
+//     } catch (error) {
+//         console.log(error,'error occured in addNewMembers')
+//         throw error
+        
+//     }
+// }
+
+const addNewMembers = async (projectId, members) => {
+    try {
+     
+      const project = await projectModel.findById(projectId);
+  
+     
+      if (!project) {
+        return null;
+      }
+  
+      
+      const existingEmails = project.members.map(member => member.email);
+  
+    
+      const newMembers = members
+        .filter(member => !existingEmails.includes(member.email)) 
+        .map(member => ({ _id: new mongoose.Types.ObjectId(), email: member.email }));
+  
+    
+      project.members.push(...newMembers);
+  
+     
+      const updatedProject = await project.save();
+      
+      return updatedProject;
+    } catch (error) {
+      console.log('Error adding members:', error);
+      throw error; 
+    }
+  };
+  
+
+  const updateProject = async (projectId, updatedData) => {
+    try {
+      return await projectModel.findByIdAndUpdate(projectId, updatedData, { new: true });
+    } catch (error) {
+      throw new Error("Error updating project");
+    }
+  };
+
 export{
     createProject,
     getProjects,
     getEachProject,
 
     getProjectById,
+
+    addNewMembers,
+    updateProject
    
 }
 

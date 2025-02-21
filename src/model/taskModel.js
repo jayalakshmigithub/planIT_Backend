@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 
 
@@ -42,6 +43,21 @@ const taskSchema = new mongoose.Schema({
   images:{
     type: Array,
   },
+  statusHistory: [{
+    status: {
+      type: String,
+      enum: ['ongoing', 'pending', 'Completed'],
+    },
+    changedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
+    changedAt: {
+      type: Date,
+      default: Date.now,
+    }
+  }],
+
   OwnerId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'user',

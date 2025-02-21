@@ -3,7 +3,7 @@ import {signup,otpgenerate,otpVerify, signin,signinByGoogle, updateUserProfile,v
 import {verifyToken} from '../utils/middleware/authMiddleware.js'
 import { createWorkspace,getEachWorkspace,getWorkspaces ,inviteUserToWorkspace,sharedWorkspace,getAllMembersByWorkspaceId, deleteWorkspaceController} from '../controllers/workspaceController.js'
 import { sendInvitationController, verifyInvitationController } from '../controllers/inviteController.js';
-import { getProjectsInWorkspace, projectCreation ,getEachProject,getProjectMembers} from '../controllers/projectController.js';
+import { getProjectsInWorkspace, projectCreation ,getEachProject,getProjectMembers, addNewMembers, editheProject} from '../controllers/projectController.js';
 import { fetchProjectTasks, taskCreation, updateTaskStatus } from '../controllers/taskController.js';
 import { createChatRoomController, existingChatRoomController, fetchChatRoomsController, fetchChatRoomsWorkspaceController  } from '../controllers/chatRoomController.js';
 // import { changePassword } from '../repository/userRepository.js';
@@ -13,6 +13,9 @@ import { checkBlocked } from '../utils/middleware/checkUserBlocked.js';
 import { changePasswordController } from '../controllers/userController.js';
 import { createMessageController , fetchMessagesController} from '../controllers/messageController.js';
 import upload from '../utils/functions/images.js';
+import { getUserNotifications } from '../controllers/NotificationController.js';
+import { editProject } from '../services/projectServices.js';
+import { validateProjectAccess } from '../utils/middleware/validateProjectAccess.js';
 
 
 
@@ -37,6 +40,10 @@ userRoutes.post('/createproject',verifyToken,checkBlocked,projectCreation);
 userRoutes.get('/projects/:id',verifyToken,checkBlocked,getEachProject);
 userRoutes.get('/workspace/:id/members', verifyToken, checkBlocked,getAllMembersByWorkspaceId);
 userRoutes.get('/projects/:id/members',verifyToken,checkBlocked,getProjectMembers);
+userRoutes.put('/projects/edit-project/',verifyToken,checkBlocked,editheProject)
+
+// userRoutes.post('/projects/:id/addmembers',verifyToken,checkBlocked,addNewMembers)
+userRoutes.post('/projects/addmembers',verifyToken,checkBlocked,addNewMembers)
 
 
 userRoutes.post('/invite', verifyToken,checkBlocked,inviteUserToWorkspace);
@@ -69,6 +76,8 @@ userRoutes.post('/change-password',verifyToken,checkBlocked,changePassword);
 userRoutes.get('/chats/messages',verifyToken,checkBlocked,fetchChatRoomsController)
 
 userRoutes.get('/chatrooms/:id',verifyToken,checkBlocked,fetchChatRoomsWorkspaceController)
+
+userRoutes.get('/notifications',verifyToken,checkBlocked,getUserNotifications)
 
 
 

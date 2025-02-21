@@ -21,10 +21,10 @@ const getProjectTasks = async(projectId)=>{
         
     }
 }
-const updateTaskStatus = async (taskId, status) => {
+const updateTaskStatus = async (taskId, status,userId) => {
     try {
-    
-      const updatedTask = await taskRepository.updateTaskStatus(taskId, status);
+        console.log('taskId in service ',taskId)
+      const updatedTask = await taskRepository.updateTaskStatus(taskId, status,userId);
   
       return updatedTask;
     } catch (error) {

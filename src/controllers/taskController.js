@@ -37,12 +37,14 @@ const fetchProjectTasks = async (req, res) => {
 const updateTaskStatus = async (req, res) => {
   try {
     const { taskId, status } = req.body;
-    if (!taskId || !status) {
+    console.log('taskId in controller',taskId)
+    const userId = req.userId
+    if (!taskId || !status ||!userId) {
       return res
         .status(400)
         .json({ message: "Task ID and status are required" });
     }
-    const updatedTask = await taskServices.updateTaskStatus(taskId, status);
+    const updatedTask = await taskServices.updateTaskStatus(taskId, status,userId);
     console.log("Updating status to:", status);
     res.status(200).json({ message: "Task status updated", task: updatedTask });
   } catch (error) {

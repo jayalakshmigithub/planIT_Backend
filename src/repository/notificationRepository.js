@@ -12,11 +12,10 @@ const createNotification = async (notificationData) => {
 
 const getNotifications = async (userId) => {
     try {
-   
       const notifications = await notificationModel
         .find({ userId })
         .populate("projectId", "projectName") 
-        .populate("taskId", "name") 
+        // .populate("taskId", "name") 
         .sort({ createdAt: -1 }); 
   
       return notifications;
@@ -27,6 +26,7 @@ const getNotifications = async (userId) => {
   };
 
   export{
+
     getNotifications,
     createNotification
   }

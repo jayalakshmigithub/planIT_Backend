@@ -2,11 +2,13 @@ import * as notificationService from '../services/notificationService.js';
 
 
 const getUserNotifications = async (req, res) => {
+  
     try {
-      const userId = req.user._id; 
-      console.log(userId,'userId in notification controller')
+      const userId = req.userId; 
+      
   
       const notifications = await notificationService.fetchUserNotifications(userId);
+    
   
       res.status(200).json({
         success: true,

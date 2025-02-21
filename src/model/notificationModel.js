@@ -2,30 +2,34 @@ import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema(
   {
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "user", 
+    //   required: true,
+    // },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user", 
+      type: String,
       required: true,
     },
     // type: {
-    //   type: String,
+    //   type: String
     //   enum: ["project"], 
     //   required: true,
     // },
-    type: {
-      type: String,
-      required: true, 
-    },
+    // type: {
+    //   type: String,
+    //   required: true, 
+    // },
     projectId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "projects", 
       default: null, 
     },
-    taskId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "tasks",
-      default: null, 
-    },
+    // taskId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "tasks",
+    //   default: null, 
+    // },
     message: {
       type: String,
       required: true, 
@@ -40,3 +44,5 @@ const notificationSchema = new mongoose.Schema(
 
 const notificationModel = mongoose.model("notifications", notificationSchema);
 export { notificationModel };
+
+
