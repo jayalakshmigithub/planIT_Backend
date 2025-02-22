@@ -53,4 +53,27 @@ const updateTaskStatus = async (req, res) => {
   }
 };
 
-export { taskCreation, fetchProjectTasks, updateTaskStatus };
+const editTask = async(req,res)=>{
+  try {
+   const {_id,...updatedtask} = req.body
+   console.log(req.body,'reqbody task')
+   if(!_id){
+    return res.status(400).json({ message: "task ID is required" });
+   }
+   const updatedTask = await taskServices.editTask(_id,updatedtask)
+   if(!updatedTask){
+    return res.status(404).json({ message: "task not found" });
+   }
+   res.status(200).json({ message: "task updated successfully", task: updatedTask });
+
+
+  } catch (error) {
+    console.error("Error in editTask controller:", error);
+    res.status(500).json({ message: "Internal server error" });
+
+
+    
+  }
+}
+
+export { taskCreation, fetchProjectTasks, updateTaskStatus ,editTask};

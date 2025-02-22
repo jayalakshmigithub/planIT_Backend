@@ -218,9 +218,32 @@ const findOwnerOfTask = async()=>{
 
 }
 
+const getTaskById = async(taskId)=>{
+  try {
+    const task = await taskModel.findById(taskId)
+    return task
+  } catch (error) {
+    console.error('error in getting task',error);
+    throw error
+    
+  }
+}
+
+const updateTask = async(taskId,updatedTask)=>{
+  try {
+  return await taskModel.findByIdAndUpdate(taskId,updatedTask,{new:true})
+  } catch (error) {
+    console.error('error in updating task',error);
+    throw error
+    
+  }
+}
+
 export {
     CreateTask,
     getTasks,
-    updateTaskStatus
+    updateTaskStatus,
+    getTaskById,
+    updateTask
 
 }

@@ -33,8 +33,28 @@ const updateTaskStatus = async (taskId, status,userId) => {
     }
   };
 
+  const editTask = async(taskId,updatedTask)=>{
+    try {
+        const existingTask = await taskRepository.getTaskById(taskId)
+        if(!existingTask){
+            return null
+        }
+
+        const updateTask = await taskRepository.updateTask(taskId,updatedTask)
+        return updateTask
+
+
+    } catch (error) {
+        console.error('error in updating task service',error);
+        throw error
+        
+        
+    }
+  }
+
 export {
     CreatTask,
     getProjectTasks ,
-    updateTaskStatus
+    updateTaskStatus,
+    editTask
 }

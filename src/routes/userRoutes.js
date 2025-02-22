@@ -4,7 +4,7 @@ import {verifyToken} from '../utils/middleware/authMiddleware.js'
 import { createWorkspace,getEachWorkspace,getWorkspaces ,inviteUserToWorkspace,sharedWorkspace,getAllMembersByWorkspaceId, deleteWorkspaceController} from '../controllers/workspaceController.js'
 import { sendInvitationController, verifyInvitationController } from '../controllers/inviteController.js';
 import { getProjectsInWorkspace, projectCreation ,getEachProject,getProjectMembers, addNewMembers, editheProject} from '../controllers/projectController.js';
-import { fetchProjectTasks, taskCreation, updateTaskStatus } from '../controllers/taskController.js';
+import { editTask, fetchProjectTasks, taskCreation, updateTaskStatus } from '../controllers/taskController.js';
 import { createChatRoomController, existingChatRoomController, fetchChatRoomsController, fetchChatRoomsWorkspaceController  } from '../controllers/chatRoomController.js';
 // import { changePassword } from '../repository/userRepository.js';
 // import { changePasswordController } from '../services/workspaceServices.js'
@@ -14,8 +14,8 @@ import { changePasswordController } from '../controllers/userController.js';
 import { createMessageController , fetchMessagesController} from '../controllers/messageController.js';
 import upload from '../utils/functions/images.js';
 import { getUserNotifications } from '../controllers/NotificationController.js';
-import { editProject } from '../services/projectServices.js';
-import { validateProjectAccess } from '../utils/middleware/validateProjectAccess.js';
+
+
 
 
 
@@ -55,6 +55,7 @@ userRoutes.get('/workspaces/:workspaceId/projects',verifyToken,checkBlocked,getP
 userRoutes.post('/tasks',verifyToken,checkBlocked,upload.array("images",10), taskCreation);
 userRoutes.get('/projects/:projectId/tasks',verifyToken,checkBlocked,fetchProjectTasks);
 userRoutes.put('/tasks/status',verifyToken,checkBlocked,updateTaskStatus);
+userRoutes.put('/tasks/edit-task',verifyToken,checkBlocked,editTask)
 
 
 userRoutes.get('/chat',verifyToken,checkBlocked,existingChatRoomController);
