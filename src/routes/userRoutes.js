@@ -14,7 +14,7 @@ import { changePasswordController } from '../controllers/userController.js';
 import { createMessageController , fetchMessagesController} from '../controllers/messageController.js';
 import upload from '../utils/functions/images.js';
 
-import getUserNotifications from '../controllers/notificationController.js'
+import {getUserNotifications} from '../controllers/notificationController.js'
 
 
 
