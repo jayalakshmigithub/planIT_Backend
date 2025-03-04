@@ -6,12 +6,12 @@ import dbConnect from './config/db.js';
 import cors from 'cors';
 import morgan from 'morgan';
 import {Server} from 'socket.io'
-
 import userRoutes from '../src/routes/userRoutes.js';
 import { refreshTokenController } from './controllers/refreshTokecController.js';
 import adminRouter from './routes/adminRoutes.js';
-
 import { initializeSocket } from './sockets/socketConnection.js';
+import { errorHandler, notFoundHandler } from './utils/middleware/errorMiddleware.js';
+
 
 
 const app = express()
@@ -35,7 +35,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static('public/'))
 app.use(cors({
     origin:config.API_URL,
-    methods: ['GET', 'POST', 'PUT' , 'DELETE'],
+    methods: ['GET', 'POST', 'PUT' ,'PATCH', 'DELETE'],
     credentials:true
 }))
  
@@ -45,7 +45,7 @@ app.use(morgan('dev'));
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", `${config.API_URL}`);
     res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT,PATCH, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 });
@@ -60,6 +60,9 @@ app.use('/api/user',userRoutes)
 app.use('/api/admin',adminRouter)
 
 app.post('/api/refresh-token', refreshTokenController);
+
+app.use(notFoundHandler)
+app.use(errorHandler)
 
 server.listen(config.PORT,()=>{
     console.log(`server running at ${config.PORT} `)

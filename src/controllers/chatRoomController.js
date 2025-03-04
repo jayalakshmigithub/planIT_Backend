@@ -1,46 +1,39 @@
 import * as chatRoomServices from '../services/chatRoomServices.js'
+import constants from '../utils/functions/constants.js';
 
 const existingChatRoomController = async (req, res) => {
     const { selectedWorkspace, selectedProject,  } = req.body;
-    console.log('req.bodyyy',req.body)
     try {
         const chatRoom = await chatRoomServices.existingChatRoom(selectedWorkspace, selectedProject);
-        console.log('got chatrrooom',chatRoom)
         return res.status(201).json({ chatRoom });
     } catch (error) {
-        return res.status(500).json({ message: "Error existing chat room" });
+        return res.status(500).json({ message: constants.CHATS.ERROR_EXISTING_CHATROOM });
     }
 };
 
 const createChatRoomController = async(req,res)=>{
     const {workspaceId,projectId} = req.body;
 console.log(workspaceId, projectId,'workspaceId, projectId'); 
-
-    
 try {
     const chatRoom = await chatRoomServices.createChatRoom(workspaceId,projectId)
     return res.status(201).json({ chatRoom });
 } catch (error) {
-    return res.status(500).json({ message: "Error creating chat room" });  
+    return res.status(500).json({ message: constants.CHATS.ERROR_CREATING_CHATROOM });  
 }
 }
 
 const fetchChatRoomsController = async (req, res) => {
-    console.log('hiii in fetchChatRoomsController')
     const { chatRoomId } = req.query;
-    console.log('chatRoomId......',chatRoomId)
-
     if (!chatRoomId) {
-        return res.status(400).json({ message: "Chat room ID is required" });
+        return res.status(400).json({ message: constants.CHATS.CHATROOM_ID_REQUIRED });
     }
 
     try {
         const fetchingChatRooms = await chatRoomServices.fetchChatRooms(chatRoomId);
-        console.log('fetchingChatRooms',fetchingChatRooms)
         return res.status(200).json({ fetchingChatRooms });
     } catch (error) {
         console.error("Error in controller:", error);
-        return res.status(500).json({ message: "Error fetching chat room" });
+        return res.status(500).json({ message: constants.CHATS.ERROR_FETCHING_CHATROOM });
     }
 };
 
@@ -57,7 +50,7 @@ const fetchChatRoomsWorkspaceController = async (req, res) => {
       return res.status(200).json({ chatRooms });
     } catch (error) {
       console.error("Error in fetchChatRoomsController:", error);
-      return res.status(500).json({ message: "Error fetching chat rooms" });
+      return res.status(500).json({ message: constants.CHATS.ERROR_FETCHING_CHATROOMS });
     }
   };
 

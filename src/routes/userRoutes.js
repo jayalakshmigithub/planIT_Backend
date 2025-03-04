@@ -15,6 +15,9 @@ import { createMessageController , fetchMessagesController} from '../controllers
 import upload from '../utils/functions/images.js';
 
 import {getUserNotifications} from '../controllers/notificationController.js'
+import logoutUser from '../controllers/logoutController.js';
+import checkBlacklisted from '../utils/middleware/checkBlacklisted.js';
+
 
 
 
@@ -33,7 +36,7 @@ userRoutes.post('/create',verifyToken,checkBlocked,createWorkspace);
 userRoutes.post('/invite', verifyToken,checkBlocked,sendInvitationController);
 userRoutes.get('/verify', verifyInvitationController);
 // userRoutes.get('/getworks', verifyToken,gettworkkks);
-userRoutes.get('/workspaces',verifyToken,checkBlocked,getWorkspaces);
+userRoutes.get('/workspaces',verifyToken,checkBlocked,checkBlacklisted ,getWorkspaces);
 userRoutes.get('/workspace/:id',verifyToken,checkBlocked,getEachWorkspace);
 // userRoutes.get('/project/:id',verifyToken.getEachProject)
 
@@ -48,7 +51,7 @@ userRoutes.post('/projects/addmembers',verifyToken,checkBlocked,addNewMembers)
 
 
 userRoutes.post('/invite', verifyToken,checkBlocked,inviteUserToWorkspace);
-userRoutes.put('/updateprofile/:userId',verifyToken,checkBlocked,updateUserProfile);
+userRoutes.patch('/updateprofile/:userId',verifyToken,checkBlocked,updateUserProfile);
 userRoutes.get('/workspaces/:workspaceId/projects',verifyToken,checkBlocked,getProjectsInWorkspace);
 
 
@@ -80,6 +83,9 @@ userRoutes.get('/chats/messages',verifyToken,checkBlocked,fetchChatRoomsControll
 userRoutes.get('/chatrooms/:id',verifyToken,checkBlocked,fetchChatRoomsWorkspaceController)
 
 userRoutes.get('/notifications',verifyToken,checkBlocked,getUserNotifications)
+
+userRoutes.post('/logout',logoutUser)
+
 
 
 
