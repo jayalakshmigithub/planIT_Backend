@@ -19,8 +19,6 @@ const projectCreation = async(req,res,next)=>{
 
 
 
-
-
 const getProjectsInWorkspace = async(req,res,next)=>{
     const {workspaceId} = req.params;
     if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
@@ -93,7 +91,7 @@ const getEachProject = async(req,res,next)=>{
 const addNewMembers = async(req, res,next) => {
     try {
         const { projectId, memberEmails } = req.body;
-        console.log('projectId,memberEmails', projectId, memberEmails);
+      
         
         const newMembers = await projectServices.addNewMembers(projectId, memberEmails);
         
@@ -136,7 +134,8 @@ const editheProject = async (req, res,next) => {
     }
   };
 
-  
+ 
+
 
 
 
@@ -148,9 +147,57 @@ export{
     getProjectMembers,
 
     addNewMembers,
-    editheProject
+    editheProject,
+   
 
 }
+
+
+
+
+
+
+
+
+
+
+
+// const removeMembers = async (req, res) => {
+//     const { projectId, memberEmails } = req.body;
+//     console.log('projectId:', projectId, 'memberEmails:', memberEmails);
+
+//     if (!projectId || !memberEmails || !Array.isArray(memberEmails) || memberEmails.length === 0) {
+//         return res.status(400).json({ message: "Invalid request data" });
+//     }
+
+//     try {
+//         const updatedProject = await projectServices.removeMembers(projectId, memberEmails);
+        
+//         if (!updatedProject) {
+//             return res.status(404).json({ message: "Project not found" });
+//         }
+
+//         return res.status(200).json({ message: "Members removed successfully", project: updatedProject });
+
+//     } catch (error) {
+//         console.error('Error in removeMembers:', error);
+//         res.status(500).json({ message: "Failed to remove members" });
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

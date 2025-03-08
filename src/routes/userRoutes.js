@@ -3,7 +3,7 @@ import {signup,otpgenerate,otpVerify, signin,signinByGoogle, updateUserProfile,v
 import {verifyToken} from '../utils/middleware/authMiddleware.js'
 import { createWorkspace,getEachWorkspace,getWorkspaces ,inviteUserToWorkspace,sharedWorkspace,getAllMembersByWorkspaceId, deleteWorkspaceController} from '../controllers/workspaceController.js'
 import { sendInvitationController, verifyInvitationController } from '../controllers/inviteController.js';
-import { getProjectsInWorkspace, projectCreation ,getEachProject,getProjectMembers, addNewMembers, editheProject} from '../controllers/projectController.js';
+import { getProjectsInWorkspace, projectCreation ,getEachProject,getProjectMembers, addNewMembers, editheProject, } from '../controllers/projectController.js';
 import { editTask, fetchProjectTasks, taskCreation, updateTaskStatus } from '../controllers/taskController.js';
 import { createChatRoomController, existingChatRoomController, fetchChatRoomsController, fetchChatRoomsWorkspaceController  } from '../controllers/chatRoomController.js';
 // import { changePassword } from '../repository/userRepository.js';
@@ -46,7 +46,10 @@ userRoutes.get('/workspace/:id/members', verifyToken, checkBlocked,getAllMembers
 userRoutes.get('/projects/:id/members',verifyToken,checkBlocked,getProjectMembers);
 userRoutes.put('/projects/edit-project/',verifyToken,checkBlocked,editheProject)
 
-// userRoutes.post('/projects/:id/addmembers',verifyToken,checkBlocked,addNewMembers)
+
+
+
+
 userRoutes.post('/projects/addmembers',verifyToken,checkBlocked,addNewMembers)
 
 

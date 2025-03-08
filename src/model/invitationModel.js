@@ -11,6 +11,11 @@ const invitationSchema = new mongoose.Schema({
         type:String,
         required:true,
 
+    },
+    workspaceId :{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"workspace",
+        required:true
     }
     
 },{timestamps:true})

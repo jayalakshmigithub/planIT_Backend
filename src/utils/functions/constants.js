@@ -14,6 +14,7 @@ const constants = {
         UPDATED: "Project updated successfully",
         MEMBERS_ADDED: "Members added successfully",
         NO_MEMBERS_FOUND: "No members found for this project",
+        MEMBERS_REMOVED: "Members removed from project"
       },
     
       WORKSPACE: {
