@@ -74,14 +74,14 @@ const refreshTokenController = async (req, res) => {
         }
 
         // 🔹 Check if token is blacklisted
-        const isBlacklisted = await BlacklistedModel.findOne({ token: cookieToken });
-        if (isBlacklisted) {
-            const now = new Date();
-            if (isBlacklisted.expiresAt < now) {
-                return res.status(403).json({ message: "Expired refresh token" });
-            }
-            return res.status(403).json({ message: "Invalid refresh token" });
-        }
+        // const isBlacklisted = await BlacklistedModel.findOne({ token: cookieToken });
+        // if (isBlacklisted) {
+        //     const now = new Date();
+        //     if (isBlacklisted.expiresAt < now) {
+        //         return res.status(403).json({ message: "Expired refresh token" });
+        //     }
+        //     return res.status(403).json({ message: "Invalid refresh token" });
+        // }
         
 
         let decoded;
