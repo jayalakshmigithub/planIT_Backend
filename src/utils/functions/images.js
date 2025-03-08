@@ -3,12 +3,15 @@ import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
 
 import config from "../../config/config.js";
+
+const region = "ap-south-1";
 const s3Client = new S3Client({
+    region,
     credentials: {
         accessKeyId: config.ACCESS_KEY || "",
         secretAccessKey: config.SECRET_ACCESS_KEY || "",
     },
-    region: config.BUCKET_REGION || "ap-south-1",
+    // region: config.BUCKET_REGION || "ap-south-1",
 });
 console.log(config.BUCKET_REGION)
 const s3Storage = multerS3({
