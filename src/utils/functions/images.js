@@ -8,9 +8,9 @@ const s3Client = new S3Client({
         accessKeyId: config.ACCESS_KEY || "",
         secretAccessKey: config.SECRET_ACCESS_KEY || "",
     },
-    region: config.BUCKET_REGION || "",
+    region: config.BUCKET_REGION || "ap-south-1",
 });
-
+console.log(config.BUCKET_REGION)
 const s3Storage = multerS3({
     s3: s3Client,
     bucket: config.BUCKET_NAME ,
@@ -23,7 +23,7 @@ const s3Storage = multerS3({
         cb(null, fileName);
     },
 });
-
+console.log('config.BUCKET_NAME',config.BUCKET_NAME),
 function sanitizeFile(file, cb) {
     console.log('file', file);
     const isAllowedMimeType = file.mimetype.startsWith("image/");

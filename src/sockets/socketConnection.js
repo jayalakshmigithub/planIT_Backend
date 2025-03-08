@@ -126,77 +126,8 @@ messageIds.forEach((messageId) => {
 //for initiate the call
 
 
-// socket.on("initiate-call",({roomId,callerId,participants,chatRoomId})=>{
-//     try {
-//         if(!activeRooms.has(roomId)){
-//             activeRooms.set(roomId,{
-//                 participants: new Set([callerId]),
-//                 chatRoomId,
-//                 callerId
-//             })
-//         }
-//         participants.forEach(participantId=>{
-//             if(participantId !== callerId && userSockets.has(participantId)){
-//                 userSockets.get(participantId).forEach(socketId=>{
-//                     console.log('incoming call will come')
-//                     io.to(socketId).emit("incoming-call",{
-//                         roomId,
-//                         callerId,
-//                         chatRoomId
-//                     })
-//                 })
-//             }
-//         })
-//         console.log(`call initiated by ${callerId} in room ${roomId}`)
-//     } catch (error) {
-//         console.error("Error handling initiate call event:", error);
-//         socket.emit("call-error",{message:'failed to initiate call'})
-        
-//     }
-// })
 
-//og working
-// socket.on("initiate-call", ({ roomId, callerId, participants, chatRoomId }) => {
-//     try {
-      
-//         console.log('Initiate call received:', { roomId, callerId, participants, chatRoomId });
 
-//         if (!activeRooms.has(roomId)) {
-//             activeRooms.set(roomId, {
-//                 participants: new Set([callerId]),
-//                 chatRoomId,
-//                 callerId
-//             });
-//         }
-
-//         if (!Array.isArray(participants)) {
-//             throw new Error('Participants must be an array');
-//         }
-
-//         participants.forEach(participantId => {
-//             console.log('Checking participant:', participantId);
-            
-//             if (participantId !== callerId && userSockets.has(participantId)) {
-//                 const participantSockets = userSockets.get(participantId);
-//                 console.log(`Found ${participantSockets.size} sockets for participant:`, participantId);
-                
-//                 participantSockets.forEach(socketId => {
-//                     console.log('Emitting incoming-call to socket:', socketId);
-//                     io.to(socketId).emit("incoming-call", {
-//                         roomId,
-//                         callerId,
-//                         chatRoomId
-//                     });
-//                 });
-//             }
-//         });
-
-//         console.log(`Call initiated by ${callerId} in room ${roomId}`);
-//     } catch (error) {
-//         console.error("Error handling initiate call event:", error);
-//         socket.emit("call-error", { message: 'Failed to initiate call' });
-//     }
-// });
 socket.on("initiate-call", ({ roomId, callerId, participants, chatRoomId }) => {
     try {
         console.log('Initiate call received:', { roomId, callerId, participants, chatRoomId });
@@ -466,6 +397,48 @@ socket.on("reject-call", ({ roomId, userId, callerId, reason }) => {
 
 
 
+//og working
+// socket.on("initiate-call", ({ roomId, callerId, participants, chatRoomId }) => {
+//     try {
+      
+//         console.log('Initiate call received:', { roomId, callerId, participants, chatRoomId });
+
+//         if (!activeRooms.has(roomId)) {
+//             activeRooms.set(roomId, {
+//                 participants: new Set([callerId]),
+//                 chatRoomId,
+//                 callerId
+//             });
+//         }
+
+//         if (!Array.isArray(participants)) {
+//             throw new Error('Participants must be an array');
+//         }
+
+//         participants.forEach(participantId => {
+//             console.log('Checking participant:', participantId);
+            
+//             if (participantId !== callerId && userSockets.has(participantId)) {
+//                 const participantSockets = userSockets.get(participantId);
+//                 console.log(`Found ${participantSockets.size} sockets for participant:`, participantId);
+                
+//                 participantSockets.forEach(socketId => {
+//                     console.log('Emitting incoming-call to socket:', socketId);
+//                     io.to(socketId).emit("incoming-call", {
+//                         roomId,
+//                         callerId,
+//                         chatRoomId
+//                     });
+//                 });
+//             }
+//         });
+
+//         console.log(`Call initiated by ${callerId} in room ${roomId}`);
+//     } catch (error) {
+//         console.error("Error handling initiate call event:", error);
+//         socket.emit("call-error", { message: 'Failed to initiate call' });
+//     }
+// });
 
 // socket.on("add-member", async (data) => {
 //     const { email, projectId, projectName } = data;
