@@ -30,6 +30,7 @@ const getWorkspaces = async (req, res, next) => {
 
     const workspace = await workspaceServices.listWorkspaceByOwner(ownerId);
     const sharedWorkspace = await workspaceServices.getSharedWorkspaces(userId);
+    console.log('workspace',workspace)
     return res.status(httpStatus.OK).json({ workspace, sharedWorkspace });
   } catch (error) {
     next(error);
