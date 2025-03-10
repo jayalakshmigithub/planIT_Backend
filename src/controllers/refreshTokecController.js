@@ -67,8 +67,11 @@ import { BlacklistedModel } from "../model/blackListedTokens.js";
 const refreshTokenController = async (req, res) => {
     try {
         const userRole = req.body.userRole;
+        console.log("User Role: ",userRole)
         const cookieName = userRole === "admin" ? "adminRefreshToken" : "userRefreshToken";
         const cookieToken = req.cookies[cookieName];
+        console.log('Req.body: ', req.body)
+        console.log('Req.cookies: ', req.cookies)
         console.log("Cookie Token: ",cookieToken)
         if (!cookieToken) {
             return res.status(401).json({ message: "No token, authorization denied or token mismatch" });

@@ -15,7 +15,7 @@ const generateTokens = (res, payload) => {
   );
 
   const cookieName = payload.userRole === 'admin' ? 'adminRefreshToken' : 'userRefreshToken';
-
+  console.log("cookieName",cookieName)
   res.cookie(cookieName, refreshToken, {
     httpOnly: true,
     sameSite: 'strict',
