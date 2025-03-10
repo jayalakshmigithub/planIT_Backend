@@ -18,7 +18,9 @@ const generateTokens = (res, payload) => {
   console.log("cookieName",cookieName)
   res.cookie(cookieName, refreshToken, {
     httpOnly: true,
-    sameSite: 'strict',
+    // sameSite: 'strict',
+    sameSite: 'none',
+
     maxAge: 30 * 24 * 60 * 60 * 1000,
     secure: true,
   });
