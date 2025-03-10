@@ -37,6 +37,7 @@ userRoutes.post('/invite', verifyToken,checkBlocked,sendInvitationController);
 userRoutes.get('/verify', verifyInvitationController);
 // userRoutes.get('/getworks', verifyToken,gettworkkks);
 userRoutes.get('/workspaces',verifyToken,checkBlocked,checkBlacklisted ,getWorkspaces);
+
 userRoutes.get('/workspace/:id',verifyToken,checkBlocked,getEachWorkspace);
 // userRoutes.get('/project/:id',verifyToken.getEachProject)
 
