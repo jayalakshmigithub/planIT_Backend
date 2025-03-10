@@ -20,7 +20,7 @@ const generateTokens = (res, payload) => {
     httpOnly: true,
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    secure: false,
+    secure: true,
   });
 
   return { accessToken, refreshToken };
