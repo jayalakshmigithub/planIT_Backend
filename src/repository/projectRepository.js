@@ -151,6 +151,16 @@ const addNewMembers = async (projectId, members) => {
     }
   };
 
+
+  const deleteProjectById = async(projectId)=>{
+    try {
+      const deletedProjectId = await projectModel.findByIdAndDelete(projectId)
+      return deletedProjectId
+    } catch (error) {
+      throw new Error("Error deleting project") 
+    }
+  }
+
 export{
     createProject,
     getProjects,
@@ -159,7 +169,8 @@ export{
     getProjectById,
 
     addNewMembers,
-    updateProject
+    updateProject,
+    deleteProjectById
    
 }
 

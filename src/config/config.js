@@ -11,7 +11,7 @@ export default {
     API_URL : process.env.API_URL ,
 
     BUCKET_NAME : process.env.BUCKET_NAME,
-    BUCKET_REGION : process.env.BUCKET_REGION,
+    BUCKET_REGION : process.env.BUCKET_REGION ||"ap-south-1",
     ACCESS_KEY: process.env.ACCESS_KEY,
     SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY
 }

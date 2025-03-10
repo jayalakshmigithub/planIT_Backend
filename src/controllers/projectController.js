@@ -70,6 +70,26 @@ const getEachProject = async(req,res,next)=>{
         
     }
 }
+const editheProject = async (req, res,next) => {
+    try {
+      const { _id, ...updatedData } = req.body;
+      console.log('reqqboddyy',req.body)
+  
+      if (!_id) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: "Project ID is required" });
+      }
+  
+      const updatedProject = await projectServices.editProject(_id, updatedData);
+      if (!updatedProject) {
+        return res.status(httpStatus.NOT_FOUND).json({ message: constants.PROJECT.NOT_FOUND });
+      }
+  
+      res.status(httpStatus.OK).json({ message: constants.PROJECT.UPDATED, updatedProject });
+    } catch (error) {
+      console.error("Error editing project:", error);
+   next(error)
+    }
+  };
 
 // const addNewMembers = async(req,res)=>{
 //     try {
@@ -113,28 +133,46 @@ const addNewMembers = async(req, res,next) => {
     }
 };
 
-const editheProject = async (req, res,next) => {
-    try {
-      const { _id, ...updatedData } = req.body;
-      console.log('reqqboddyy',req.body)
-  
-      if (!_id) {
-        return res.status(httpStatus.BAD_REQUEST).json({ message: "Project ID is required" });
-      }
-  
-      const updatedProject = await projectServices.editProject(_id, updatedData);
-      if (!updatedProject) {
-        return res.status(httpStatus.NOT_FOUND).json({ message: constants.PROJECT.NOT_FOUND });
-      }
-  
-      res.status(httpStatus.OK).json({ message: constants.PROJECT.UPDATED, updatedProject });
-    } catch (error) {
-      console.error("Error editing project:", error);
-   next(error)
-    }
-  };
 
  
+const removeMembers = async (req, res) => {
+    const { projectId, memberEmails } = req.body;
+    console.log('projectId:', projectId, 'memberEmails:', memberEmails);
+
+    if (!projectId || !memberEmails || !Array.isArray(memberEmails) || memberEmails.length === 0) {
+        return res.status(400).json({ message: "Invalid request data" });
+    }
+
+    try {
+        const updatedProject = await projectServices.removeExistingMember(projectId, memberEmails);
+        console.log('updatedproject',updatedProject)
+        
+        if (!updatedProject) {
+            return res.status(404).json({ message: "Project not found" });
+        }
+
+        return res.status(200).json({ message: "Members removed successfully", project: updatedProject });
+
+    } catch (error) {
+        console.error('Error in removeMembers:', error);
+        res.status(500).json({ message: "Failed to remove members" });
+    }
+};
+
+const deleteProject = async(req,res)=> {
+    const { projectId } = req.body;
+    console.log('projectId:', projectId);
+    try {
+        await projectServices.deleteProject(projectId)
+        return res.status(200).json({ message: "Project deleted successfully" });
+    } catch (error) {
+        console.error('Error in deleteProject:', error);
+        res.status(500).json({ message: "Failed to delete project" });
+        
+    }
+    
+}
+
 
 
 
@@ -148,6 +186,8 @@ export{
 
     addNewMembers,
     editheProject,
+    removeMembers,
+    deleteProject
    
 
 }
@@ -162,28 +202,7 @@ export{
 
 
 
-// const removeMembers = async (req, res) => {
-//     const { projectId, memberEmails } = req.body;
-//     console.log('projectId:', projectId, 'memberEmails:', memberEmails);
 
-//     if (!projectId || !memberEmails || !Array.isArray(memberEmails) || memberEmails.length === 0) {
-//         return res.status(400).json({ message: "Invalid request data" });
-//     }
-
-//     try {
-//         const updatedProject = await projectServices.removeMembers(projectId, memberEmails);
-        
-//         if (!updatedProject) {
-//             return res.status(404).json({ message: "Project not found" });
-//         }
-
-//         return res.status(200).json({ message: "Members removed successfully", project: updatedProject });
-
-//     } catch (error) {
-//         console.error('Error in removeMembers:', error);
-//         res.status(500).json({ message: "Failed to remove members" });
-//     }
-// };
 
 
 

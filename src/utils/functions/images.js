@@ -3,17 +3,14 @@ import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
 
 import config from "../../config/config.js";
-
-const region = "ap-south-1";
 const s3Client = new S3Client({
-    region,
     credentials: {
         accessKeyId: config.ACCESS_KEY || "",
         secretAccessKey: config.SECRET_ACCESS_KEY || "",
     },
-    // region: config.BUCKET_REGION || "ap-south-1",
+    region: config.BUCKET_REGION || "",
 });
-console.log(config.BUCKET_REGION)
+
 const s3Storage = multerS3({
     s3: s3Client,
     bucket: config.BUCKET_NAME ,
@@ -26,7 +23,7 @@ const s3Storage = multerS3({
         cb(null, fileName);
     },
 });
-console.log('config.BUCKET_NAME',config.BUCKET_NAME),
+
 function sanitizeFile(file, cb) {
     console.log('file', file);
     const isAllowedMimeType = file.mimetype.startsWith("image/");

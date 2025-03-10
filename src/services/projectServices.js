@@ -149,8 +149,57 @@ const addNewMembers = async (projectId, memberEmails) => {
     }
   };
  
+const removeExistingMember = async (projectId, memberEmails) => {
+    try {
+        console.log("Removing members with emails:", memberEmails);  
 
+        if (!memberEmails || !Array.isArray(memberEmails) || memberEmails.length === 0) {
+            throw new Error("Invalid memberEmails provided");
+        }
 
+        const project = await projectRepository.getProjectById(projectId);
+        if (!project) {
+            return null;
+        }
+
+       
+        const membersToRemove = memberEmails.map(email => 
+            project.members.find(member => member.email === email)
+        ).filter(Boolean);  
+
+        if (membersToRemove.length === 0) {
+            throw new Error("No valid members found to remove");
+        }
+
+       
+        project.members = project.members.filter(member =>
+            !membersToRemove.includes(member)
+        );
+
+        const updatedProject = await projectRepository.updateProject(projectId, project);
+        
+        console.log("Updated project members:", updatedProject.members.map(m => m.email)); 
+
+        return updatedProject;
+    } catch (error) {
+        console.log('Error removing members:', error);
+        throw error;
+    }
+};
+
+const deleteProject = async(projectId)=>{
+    try {
+        const deletedProject = await projectRepository.deleteProjectById(projectId)
+        if(!deletedProject){
+            throw new Error('Project not found')
+        }
+        return deletedProject
+    } catch (error) {
+        console.log('Error deleting project:', error);
+        throw error;
+        
+    }
+}
 
 export{
     getProject,
@@ -160,46 +209,12 @@ export{
     getProjectMembersEmails,
     addNewMembers,
     editProject,
+    removeExistingMember,
+    deleteProject
+    
     
 
 }
 
 
 
-// const removeMembers = async (projectId, memberEmails) => {
-//     try {
-//         console.log("Removing members with emails:", memberEmails);  
-
-//         if (!memberEmails || !Array.isArray(memberEmails) || memberEmails.length === 0) {
-//             throw new Error("Invalid memberEmails provided");
-//         }
-
-//         const project = await projectRepository.getProjectById(projectId);
-//         if (!project) {
-//             return null;
-//         }
-
-       
-//         const membersToRemove = memberEmails.map(email => 
-//             project.members.find(member => member.email === email)
-//         ).filter(Boolean);  
-
-//         if (membersToRemove.length === 0) {
-//             throw new Error("No valid members found to remove");
-//         }
-
-       
-//         project.members = project.members.filter(member =>
-//             !membersToRemove.includes(member)
-//         );
-
-//         const updatedProject = await projectRepository.updateProject(projectId, project);
-        
-//         console.log("Updated project members:", updatedProject.members.map(m => m.email)); 
-
-//         return updatedProject;
-//     } catch (error) {
-//         console.log('Error removing members:', error);
-//         throw error;
-//     }
-// };
