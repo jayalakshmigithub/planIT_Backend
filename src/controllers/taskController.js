@@ -75,4 +75,19 @@ const editTask = async(req,res,next)=>{
   }
 }
 
-export { taskCreation, fetchProjectTasks, updateTaskStatus ,editTask};
+const deleteTask = async(req,res,next)=>{
+  try {
+    const { taskId } = req.body;
+    console.log('taskId in controller',taskId)
+    if (!taskId) {
+      return res.status(httpStatus.BAD_REQUEST).json({message:constants.TASK.TASK_ID_REQUIRED})
+    }
+    const deletedTask = await taskServices.deleteTask(taskId);
+    res.status(httpStatus.OK).json({ message: constants.TASK.TASK_DELETE_SUCCESS, task: deletedTask})
+  } catch (error) {
+    console.error("Error in deleteTask controller:", error);
+    next(error)
+  }
+}
+
+export { taskCreation, fetchProjectTasks, updateTaskStatus ,editTask, deleteTask};

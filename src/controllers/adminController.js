@@ -97,8 +97,6 @@ const workspaceList = async(req,res)=>{
 
 }
 
-
-
 const projectList = async(req,res)=>{
     try {
         const projectListInAdmin = await adminServices.getAllProjects()
@@ -110,6 +108,28 @@ const projectList = async(req,res)=>{
     }
 }
 
+//chckng accessibity
+const listWorkspace = async(req,res)=>{
+    const {workspaceId} = req.body
+    try {
+        const listedWorkspace = await adminServices.listWorkspace(workspaceId)
+        return res.status(httpStatus.OK).json(listedWorkspace)
+        
+    } catch (error) {
+        console.log(error.message)
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message:'internal server error'})   
+    }
+}
+
+const delistWorkspace = async(req,res)=>{
+    const {workspaceId} = req.body
+    try {
+        const delistedWorkspace = await adminServices.delistedWorkspace(workspaceId)
+        return res.status(httpStatus.OK).json(delistedWorkspace)
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message:'internal server error'})
+    }
+}
 
 export{
     adminLogin,
@@ -118,6 +138,9 @@ export{
     unblockUserAccount,
     workspaceList,
     projectList,
+    listWorkspace,
+    delistWorkspace
+
   
 }
 

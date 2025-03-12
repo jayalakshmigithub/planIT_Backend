@@ -52,9 +52,19 @@ const updateTaskStatus = async (taskId, status,userId) => {
     }
   }
 
+  const deleteTask = async(taskId)=>{
+    try {
+        const task = await taskRepository.deleteTask(taskId)
+        return task
+    } catch (error) {
+        console.error('error in deleting task service',error);
+        throw error  
+    }
+  }
 export {
     CreatTask,
     getProjectTasks ,
     updateTaskStatus,
-    editTask
+    editTask,
+    deleteTask
 }

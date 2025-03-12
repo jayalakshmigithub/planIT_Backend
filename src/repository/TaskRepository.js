@@ -239,11 +239,22 @@ const updateTask = async(taskId,updatedTask)=>{
   }
 }
 
+const deleteTask = async(taskId)=>{
+  try {
+    const deletedTask = await taskModel.findByIdAndDelete(taskId)
+    return deletedTask
+  } catch (error) {
+    console.error('error in deleting task',error);
+    throw error
+  }
+}
+
 export {
     CreateTask,
     getTasks,
     updateTaskStatus,
     getTaskById,
-    updateTask
+    updateTask,
+    deleteTask
 
 }

@@ -12,7 +12,7 @@ export function initializeSocket(io) {
     const activeRooms  = new Map()
 
     io.on("connection", (socket) => {
-        console.log(`Socket connected: ${socket.id}`);
+      
         
         socket.on("join-chat", (currentChatRoomId) => {
             if (currentChatRoomId) {
@@ -20,7 +20,7 @@ export function initializeSocket(io) {
                     chatSockets.set(currentChatRoomId, new Set());
                 }
                 chatSockets.get(currentChatRoomId).add(socket.id);
-                console.log(`Socket ${socket.id} joined chat ${currentChatRoomId}`);
+             
             }
         });
        
@@ -37,7 +37,7 @@ export function initializeSocket(io) {
                     console.log(message,'mesage backend sockreet')
                     chatSockets.get(chatRoomId).forEach((socketId) => {
                         io.to(socketId).emit("receive-message", message);
-                        console.log(`Message sent to socket ${socketId} in chat ${chatRoomId}`);
+                        
                     });
                 } else {
                     console.log(`No active sockets found for chat ${chatRoomId}`);
@@ -63,13 +63,13 @@ export function initializeSocket(io) {
 
 socket.on("send-notification", async (data) => {
     const { userId, message , projectName} = data;
-    console.log(data, 'Notification data received');
+    
 
     if (userId && message  && projectName) {
         try {
             
             await notificationRepository.createNotification({ userId, message,  projectName });
-            console.log(`Notification saved for user ${userId}.`);
+            
 
            
             userSockets.get(userId)?.forEach((socketId) => {
@@ -110,9 +110,7 @@ messageIds.forEach((messageId) => {
                     messageIds: [messageId], 
                     readerId: userId,
                 });
-                console.log(
-                    `Message ${messageId} marked as read by user ${userId} in chat ${chatRoomId}`
-                );
+               
             });
         }
     }
@@ -123,11 +121,7 @@ messageIds.forEach((messageId) => {
         });
 
 
-//for initiate the call
-
-
-
-
+//for initate the call
 socket.on("initiate-call", ({ roomId, callerId, participants, chatRoomId }) => {
     try {
         console.log('Initiate call received:', { roomId, callerId, participants, chatRoomId });
@@ -233,7 +227,7 @@ socket.on("reject-call", ({ roomId, userId, callerId, reason }) => {
 
 
         socket.on("join-call", ({ roomId, userId }) => {
-            console.log('hhiiii in join calll')
+          
             try {
                 
                 socket.join(roomId);
@@ -286,6 +280,27 @@ socket.on("reject-call", ({ roomId, userId, callerId, reason }) => {
                 console.error(`Error in leave-call: ${error.message}`);
             }
         });
+
+        socket.on("disconnect", () => {
+            activeRooms.forEach(({ participants }, roomId) => { 
+                participants.forEach(userId => {
+                    if (socket.rooms.has(roomId)) {
+                        socket.to(roomId).emit("user-left", { userId });
+                        participants.delete(userId);
+                    }
+                });
+        
+                if (participants.size === 0) {
+                    activeRooms.delete(roomId);
+                }
+            });
+        });
+        
+    });
+}
+
+
+
 
 //latest
 // socket.on("join-call", ({ roomId, userId }) => {
@@ -375,27 +390,6 @@ socket.on("reject-call", ({ roomId, userId, callerId, reason }) => {
         //         }
         //     });
         //     });
-        socket.on("disconnect", () => {
-            activeRooms.forEach(({ participants }, roomId) => { 
-                participants.forEach(userId => {
-                    if (socket.rooms.has(roomId)) {
-                        socket.to(roomId).emit("user-left", { userId });
-                        participants.delete(userId);
-                    }
-                });
-        
-                if (participants.size === 0) {
-                    activeRooms.delete(roomId);
-                }
-            });
-        });
-        
-    });
-}
-
-
-
-
 
 //og working
 // socket.on("initiate-call", ({ roomId, callerId, participants, chatRoomId }) => {

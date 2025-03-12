@@ -135,7 +135,27 @@ const findAllProjects = async () => {
     }
 };
 
+const listedWorkspace = async(workspaceId)=>{
+    try {
+        const activeWorkspaces = await workspaceModel.findById(workspaceId)
+        return activeWorkspaces
+    } catch (error) {
+        console.error('error in workspace lisitng repository',error);
+        throw error
+        
+    }
+}
 
+const delistedWorkspace = async(workspaceId)=>{
+    try {
+        const delistWorkspace = await workspaceModel.findById(workspaceId)
+        return delistWorkspace
+    } catch (error) {
+        console.error('error in workspace delisting repository',error);
+        throw error
+           
+    }
+}
 
 
 
@@ -150,6 +170,10 @@ export {
     unblockUser,
     findAllWorkspacesAdmin,
     findAllProjects,
-    findWorkspaceById
+    findWorkspaceById,
+    listedWorkspace,
+    delistedWorkspace
+    
+
 
 }

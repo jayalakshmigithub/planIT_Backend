@@ -37,6 +37,7 @@ const constants = {
         ERROR_EDITING_TASK: "Error editing task",
         TASK_UPDATE_SUCCESS: "Task updated successfully",
         TASK_NOT_FOUND: "Task not found",
+        TASK_DELETE_SUCCESS:"Task deleted successfully"
       },
     
       COMMON: {

@@ -85,6 +85,28 @@ const getWorkspaceById = async(workspaceId)=>{
 
 }
 
+const listWorkspace = async(workspaceId)=>{
+    try {
+        const activeWorkspaces = await adminRepository.listedWorkspace(workspaceId)
+        return activeWorkspaces
+    } catch (error) {
+        console.error('error occured in getWorkspaceList',error);
+        throw error
+        
+    }
+}
+
+const delistedWorkspace = async(workspaceId)=>{
+    try {
+        const delistWorkspace = await adminRepository.delistedWorkspace(workspaceId)
+        return delistWorkspace
+    } catch (error) {
+        console.error('error occured in getWorkspaceList',error);
+        throw error
+        
+    }
+}
+
 
 export{
     getAdminByEmail,
@@ -94,6 +116,8 @@ export{
     getUnblockUser,
     getAllworkspacesAdmin,
     getAllProjects,
-    getWorkspaceById
+    getWorkspaceById,
+    listWorkspace,
+    delistedWorkspace
 
 }

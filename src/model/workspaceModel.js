@@ -37,6 +37,10 @@
             type:mongoose.Schema.Types.ObjectId,
             ref:'user',
             required :true
+        },
+        isListed: {  
+            type: Boolean,
+            default: true  
         }
 
     },{timestamps:true})
