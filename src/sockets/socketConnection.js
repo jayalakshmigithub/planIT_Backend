@@ -54,7 +54,7 @@ export function initializeSocket(io) {
                     userSockets.set(userId, new Set());
                 }
                 userSockets.get(userId).add(socket.id);
-                console.log(`User ${userId} registered for notifications with socket ${socket.id}`);
+               
             }
         });
 
