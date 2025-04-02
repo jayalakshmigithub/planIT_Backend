@@ -214,9 +214,7 @@ const updateTaskStatus = async (taskId, status, userId) => {
       throw error;
     }
 };
-const findOwnerOfTask = async()=>{
 
-}
 
 const getTaskById = async(taskId)=>{
   try {

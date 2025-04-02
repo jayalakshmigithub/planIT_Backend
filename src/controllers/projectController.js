@@ -163,7 +163,10 @@ const deleteProject = async(req,res)=> {
     const { projectId } = req.body;
     console.log('projectId:', projectId);
     try {
-        await projectServices.deleteProject(projectId)
+       const deletedProject = await projectServices.deleteProject(projectId)
+       if(!deletedProject){
+        return res.status(404).json({message:'Project not found'})
+       }
         return res.status(200).json({ message: "Project deleted successfully" });
     } catch (error) {
         console.error('Error in deleteProject:', error);

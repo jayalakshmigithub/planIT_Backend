@@ -86,6 +86,44 @@ socket.on("send-notification", async (data) => {
 });
 
 
+//for notificationread
+
+socket.on("mark-notification-as-read",async(data)=>{
+    const {notificationId,userId} =data
+    console.log('notificationId,userId in socket',notificationId,userId)
+    if (!notificationId || !userId) {
+        throw new Error("Invalid data for marking notification as read");
+    }
+        try{
+            await notificationRepository.markNotificationAsRead(notificationId,userId)
+            userSockets.get(userId)?.forEach((socketId)=>{
+                io.to(socketId).emit("notification-read",{notificationId});
+            })
+            console.log('notification read')
+            console.log(`Notification ${notificationId} marked as read for user ${userId}`);
+            }catch(error){
+                console.error('error in mark notification as read',error.message)
+        }
+            
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

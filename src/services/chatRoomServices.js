@@ -3,7 +3,6 @@ import * as chatRoomRepository from '../repository/chatRoomRepository.js'
 const existingChatRoom = async(workspaceId,projectId)=>{
    try {
      const chatroom = await chatRoomRepository.existingChatRoom(workspaceId,projectId)
-     console.log(chatroom,'chatroom in serviceee')
      return chatroom
    } catch (error) {
     console.error('error occured in service',error);
